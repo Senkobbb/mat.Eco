@@ -1,0 +1,95 @@
+{
+  "name": "mat.Eco",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/mat.Eco/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/mat.Eco",
+        "index": "apps/mat.Eco/src/index.html",
+        "browser": "apps/mat.Eco/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/mat.Eco/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/mat.Eco/public"
+          }
+        ],
+        "styles": ["apps/mat.Eco/src/styles.scss"],
+        "scripts": [],
+        "server": "apps/mat.Eco/src/main.server.ts",
+        "prerender": true,
+        "ssr": {
+          "entry": "apps/mat.Eco/server.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "mat.Eco:build:production"
+        },
+        "development": {
+          "buildTarget": "mat.Eco:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "mat.Eco:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/mat.Eco/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "mat.Eco:build",
+        "port": 4200,
+        "staticFilePath": "dist/apps/mat.Eco/browser",
+        "spa": true
+      }
+    }
+  }
+}
